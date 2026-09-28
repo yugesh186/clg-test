@@ -20,6 +20,7 @@ export default function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('student');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -32,10 +33,10 @@ export default function Register() {
     setError('');
     setSubmitting(true);
     try {
-      await register(name, email, password, 'student');
+      await register(name, email, password, role);
       // Always redirect to login page after registration with success message
       navigate('/login', {
-        state: { message: 'Registration successful! Please log in with your credentials.' }
+        state: { message: `${role === 'admin' ? 'Admin' : 'Student'} registration successful! Please log in with your credentials.` }
       });
     } catch (err) {
       setError(err.message || 'Registration failed');
@@ -68,7 +69,7 @@ export default function Register() {
           </div>
 
           <p className="saec-hero-subtext">
-            Create your student account to take tests, track your progress, and perform better with a simple and secure platform.
+            Create your account to access online examinations, proctor tests, and track academic performance on a secure platform.
           </p>
 
           <div className="saec-features-list">
@@ -77,7 +78,7 @@ export default function Register() {
                 <FileText size={22} />
               </div>
               <div className="saec-feature-info">
-                <h4>Take Tests</h4>
+                <h4>Take & Conduct Tests</h4>
                 <p>Anytime, Anywhere</p>
               </div>
             </div>
@@ -88,7 +89,7 @@ export default function Register() {
               </div>
               <div className="saec-feature-info">
                 <h4>Track Progress</h4>
-                <p>View Scores & History</p>
+                <p>View Scores & Live Analytics</p>
               </div>
             </div>
 
@@ -98,7 +99,7 @@ export default function Register() {
               </div>
               <div className="saec-feature-info">
                 <h4>Secure & Reliable</h4>
-                <p>Your Data is Safe</p>
+                <p>Automated Anti-Malpractice</p>
               </div>
             </div>
           </div>
@@ -125,10 +126,76 @@ export default function Register() {
               <div className="saec-cap-badge">
                 <UserPlus size={24} />
               </div>
-              <h3 className="saec-login-title">Student Registration</h3>
+              <h3 className="saec-login-title">
+                {role === 'admin' ? 'Administrator Registration' : 'Student Registration'}
+              </h3>
               <p className="saec-login-desc">
-                Create your student account to access online examinations and track your progress.
+                {role === 'admin' 
+                  ? 'Create an administrator account to manage exams, monitor live proctoring, and review student results.' 
+                  : 'Create your student account to access online examinations and track your progress.'
+                }
               </p>
+            </div>
+
+            {/* Account Role Selector Tabs */}
+            <div style={{
+              display: 'flex',
+              gap: 8,
+              marginBottom: 20,
+              background: '#F1F5F9',
+              padding: 4,
+              borderRadius: 12,
+              border: '1px solid #E2E8F0'
+            }}>
+              <button
+                type="button"
+                onClick={() => setRole('student')}
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8,
+                  padding: '9px 12px',
+                  borderRadius: 10,
+                  border: 'none',
+                  fontWeight: 700,
+                  fontSize: '0.88rem',
+                  cursor: 'pointer',
+                  background: role === 'student' ? '#FFFFFF' : 'transparent',
+                  color: role === 'student' ? '#0066FF' : '#64748B',
+                  boxShadow: role === 'student' ? '0 2px 8px rgba(0, 102, 255, 0.12)' : 'none',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                <User size={16} />
+                <span>Student</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setRole('admin')}
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8,
+                  padding: '9px 12px',
+                  borderRadius: 10,
+                  border: 'none',
+                  fontWeight: 700,
+                  fontSize: '0.88rem',
+                  cursor: 'pointer',
+                  background: role === 'admin' ? '#FFFFFF' : 'transparent',
+                  color: role === 'admin' ? '#7C3AED' : '#64748B',
+                  boxShadow: role === 'admin' ? '0 2px 8px rgba(124, 58, 237, 0.12)' : 'none',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                <ShieldCheck size={16} />
+                <span>Admin</span>
+              </button>
             </div>
 
             {/* Error Feedback Alert */}
@@ -173,7 +240,7 @@ export default function Register() {
                     id="email"
                     type="email"
                     className="saec-input"
-                    placeholder="student@saec.ac.in"
+                    placeholder={role === 'admin' ? 'admin@saec.ac.in' : 'student@saec.ac.in'}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required

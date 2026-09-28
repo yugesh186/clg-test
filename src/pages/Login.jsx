@@ -139,18 +139,18 @@ export default function Login() {
               <div className="saec-divider-pill" />
             </div>
 
-            {/* Student Login Title */}
+            {/* Portal Login Title */}
             <div className="saec-login-header">
               <div className="saec-cap-badge">
                 <GraduationCap size={24} />
               </div>
               <h3 className="saec-login-title">
-                {showReset ? 'Reset Password' : 'Student Login'}
+                {showReset ? 'Reset Password' : 'Portal Sign In'}
               </h3>
               <p className="saec-login-desc">
                 {showReset 
                   ? 'Enter your account email and new password to reset.' 
-                  : 'Access your tests, track your progress, and perform your best.'
+                  : 'Access your examinations, admin portal, and track academic progress.'
                 }
               </p>
             </div>
@@ -290,7 +290,7 @@ export default function Login() {
             {/* Footer Registration Link */}
             <div className="saec-card-footer">
               <span>Don't have an account?</span>
-              <Link to="/register">Register here</Link>
+              <Link to="/register">Register here (Student / Admin)</Link>
             </div>
 
             {/* Developed Credit */}
